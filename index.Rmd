@@ -29,6 +29,7 @@ knit        : slidify::knit2slides
 * Current supported functions:<br>
 
     - View the demo graphs
+    - Choose the color group
     - Customize the map (data + title)
     - Automatic legend generation
     - Allow reset of input data

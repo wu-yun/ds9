@@ -8,9 +8,9 @@ cnmap <- readShapePoly('script/bou2_4p.shp')
 cnmap@data$NAME[899]<-cnmap@data$NAME[898]
 cnmap@data$NAME <- iconv(cnmap@data$NAME, from = 'CP936', to = 'UTF-8')
 
-getColorParam <- function(provData){
+getColorParam <- function(provData,colorspace){
   n <- 6
-  mypalette <- brewer.pal(n,"YlOrRd")
+  mypalette <- brewer.pal(n,colorspace)
   dmin <- min(provData)-1
   dmax <- max(provData)
   provcol <- mypalette[ceiling((provData-dmin)*n/(dmax-dmin))]
@@ -42,14 +42,14 @@ getLegendText <- function(n,provData){
   return (ltext)
 }
 
-plotMap <- function(provname,provData,maptitle){
+plotMap <- function(provname,provData,maptitle,colorspace){
   provname <- provname[provData!=0]
   provData <- provData[provData!=0]
-  provColor <- getColorParam(provData)
+  provColor <- getColorParam(provData,colorspace)
   plot(cnmap,col=getColor(cnmap,provname,provColor,"white"))
-  title(maptitle)
+  title(main=maptitle, cex.main=3)
   legendtext <- getLegendText(6,provData)
-  legendColor <- getLegendColor(6,"YlOrRd")
+  legendColor <- getLegendColor(6,colorspace)
   legend("bottom",legend=legendtext,horiz=TRUE, fill=legendColor)
 }
 

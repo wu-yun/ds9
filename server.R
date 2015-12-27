@@ -104,7 +104,7 @@ shinyServer(
                                             )
         
       )
-        
+      colorPram <- input$colors 
       provData <- switch(input$var,
           "Total population"=inputData$Total,
           "Abroad Population"=inputData$Abroad_Population,
@@ -152,7 +152,7 @@ shinyServer(
                          "Average Housing Area (m2)"="Average Housing Area (m2)",
                          "Use my own data"=input$title)
       
-      plotMap(provname,provData,maptitle)
+      plotMap(provname,provData,maptitle,colorPram)
     })
 
   }
