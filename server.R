@@ -1,0 +1,162 @@
+library(shiny)
+source("helper.R")
+inputData <-read.csv("data/final.csv",encoding = 'UTF-8')
+shinyServer(
+  function(input,output){
+    output$resetable_input <- renderUI({
+      times <- input$reset_input
+      div(id=letters[(times %% length(letters)) + 1],
+          textInput("title",label="Customized Title"),
+          column(6,numericInput("北京",label="北京",value = 0 )),
+          column(6,numericInput("天津",label="天津",value=0)),
+          column(6,numericInput("河北",label="河北",value=0)),
+          column(6,numericInput("山西",label="山西",value=0)),
+          column(6,numericInput("内蒙",label="内蒙",value=0)),
+          column(6,numericInput("辽宁",label="辽宁",value=0)),
+          column(6,numericInput("吉林",label="吉林",value=0)),
+          column(6,numericInput("黑龙江",label="黑龙江",value=0)),
+          column(6,numericInput("上海",label="上海",value=0)),
+          column(6,numericInput("江苏",label="江苏",value=0)),
+          column(6,numericInput("浙江",label="浙江",value=0)),
+          column(6,numericInput("安徽",
+                       label="安徽",value=0)),
+          column(6,numericInput("福建",
+                       label="福建",value=0)),
+          column(6,numericInput("江西",
+                       label="江西",value=0)),
+          column(6,numericInput("山东",
+                       label="山东",value=0)),
+          column(6,numericInput("河南",
+                       label="河南",value=0)),
+          column(6,numericInput("湖北",
+                       label="湖北",value=0)),
+          column(6,numericInput("湖南",
+                       label="湖南",value=0)),
+          column(6,numericInput("广东",
+                       label="广东",value=0)),
+          column(6,numericInput("广西",
+                       label="广西",value=0)),
+          column(6,numericInput("海南",
+                       label="海南",value=0)),
+          column(6,numericInput("重庆",
+                       label="重庆",value=0)),
+          column(6,numericInput("四川",
+                       label="四川",value=0)),
+          column(6,numericInput("贵州",
+                       label="贵州",value=0)),
+          column(6,numericInput("云南",
+                       label="云南",value=0)),
+          column(6,numericInput("西藏",
+                       label="西藏",value=0)),
+          column(6,numericInput("陕西",
+                       label="陕西",value=0)),
+          column(6,numericInput("甘肃",
+                       label="甘肃",value=0)),
+          column(6,numericInput("青海",
+                       label="青海",value=0)),
+          column(6,numericInput("宁夏",
+                       label="宁夏",value=0)),
+          column(6,numericInput("新疆",
+                       label="新疆",value=0)),
+          column(6,numericInput("台湾",
+                       label="台湾",value=0)))
+    })
+    
+    
+    output$map <- renderPlot({
+      provname <-switch(input$var,
+                        "Total population"=inputData$Province,
+                        "Abroad Population"=inputData$Province,
+                        "New Born in 2010"=inputData$Province,
+                        "Average Housing Area (m2)"=inputData$Province,
+                        "Use my own data"=c('北京市',
+                                            '天津市',
+                                            '河北省',
+                                            '山西省',
+                                            '内蒙古自治区',
+                                            '辽宁省',
+                                            '吉林省',
+                                            '黑龙江省',
+                                            '上海市',
+                                            '江苏省',
+                                            '浙江省',
+                                            '安徽省',
+                                            '福建省',
+                                            '江西省',
+                                            '山东省',
+                                            '河南省',
+                                            '湖北省',
+                                            '湖南省',
+                                            '广东省',
+                                            '广西壮族自治区',
+                                            '海南省',
+                                            '重庆市',
+                                            '四川省',
+                                            '贵州省',
+                                            '云南省',
+                                            '西藏自治区',
+                                            '陕西省',
+                                            '甘肃省',
+                                            '青海省',
+                                            '宁夏回族自治区',
+                                            '新疆维吾尔自治区',
+                                            '台湾省'
+                                            )
+        
+      )
+        
+      provData <- switch(input$var,
+          "Total population"=inputData$Total,
+          "Abroad Population"=inputData$Abroad_Population,
+          "New Born in 2010"=inputData$NewBorn,
+          "Average Housing Area (m2)"=inputData$Average_Housing_Area,
+          "Use my own data"=c(input$北京,
+                              input$天津,
+                              input$河北,
+                              input$山西,
+                              input$内蒙,
+                              input$辽宁,
+                              input$吉林,
+                              input$黑龙江,
+                              input$上海,
+                              input$江苏,
+                              input$浙江,
+                              input$安徽,
+                              input$福建,
+                              input$江西,
+                              input$山东,
+                              input$河南,
+                              input$湖北,
+                              input$湖南,
+                              input$广东,
+                              input$广西,
+                              input$海南,
+                              input$重庆,
+                              input$四川,
+                              input$贵州,
+                              input$云南,
+                              input$西藏,
+                              input$陕西,
+                              input$甘肃,
+                              input$青海,
+                              input$宁夏,
+                              input$新疆,
+                              input$台湾
+                              )
+
+                         )
+      maptitle <- switch(input$var,
+                         "Total population"="Total population",
+                         "Abroad Population"="Abroad Population",
+                         "New Born in 2010"="New Born in 2010",
+                         "Average Housing Area (m2)"="Average Housing Area (m2)",
+                         "Use my own data"=input$title)
+      
+      plotMap(provname,provData,maptitle)
+    })
+
+  }
+)
+
+
+
